@@ -1,4 +1,6 @@
 <div class="container-fluid pt-3 pb-5 w-100 m-auto" >
+    <app-spinner [isLoading]="isLoading"></app-spinner>
+    <app-toast></app-toast>
     <div class="d-flex container-fluid mb-2   ">
         <h3 class="" style="font-family: 'MyFont1', sans-serif; font-size: 20px;">Nhân viên</h3>
             <a class="btn btn-success d-flex ms-auto border text-center justify-content-center align-item-center p-2" (click)="openCreateEmployeeModal()" style="font-size: 14px;">

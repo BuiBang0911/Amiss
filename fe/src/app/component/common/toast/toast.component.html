@@ -1,0 +1,80 @@
+<div class="toast-container" [class.show]="message" [ngClass]="type">
+  <div class="" style="padding-bottom: 6px;">
+    <div class="d-flex" >
+      <svg width="24px" height="24px" viewBox="480 144 24 24" style="margin: 8px 12px 0 8px" >
+        <circle fill="#28A219" xmlns="http://www.w3.org/2000/svg" id="Ellipse_349" data-name="Ellipse 349" class="cls-34" cx="492" cy="156" r="10"/>
+        <line fill="#28A219" stroke="white" xmlns="http://www.w3.org/2000/svg" class="cls-24" x1="492" y1="155.5" x2="492" y2="159.5"/>
+        <circle fill="white" xmlns="http://www.w3.org/2000/svg" class="cls-9" cx="492" cy="152" r="1"/> 
+      </svg>
+      <span class="title" style="margin: 8px 12px 0 0px">Thông báo</span>
+      <button class="close-btn ms-auto align-items-start" style="color: #333; font-size: larger; margin-right: 4px;" (click)="closeMessage()">×</button>
+    </div>
+    <span class="content" style="padding:12px 36px;">{{ message }}</span>
+
+  </div>
+</div>
+
+<style>
+  .toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  color: black;
+  pointer-events: auto !important;
+}
+
+/* Khi có thông báo, hiển thị nó */
+.toast-container.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Loại thông báo */
+.toast-container.success {
+  background-color: #ffffff; /* Màu xanh */
+}
+
+.toast-container.warning {
+  background-color: #ffc107; /* Màu vàng */
+  color: black;
+}
+
+.toast-container.error {
+  background-color: #dc3545; /* Màu đỏ */
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.toast {
+  z-index: 9999;
+}
+
+.title {
+  font-family: 'MyFont1', sans-serif;
+  font-size: medium;
+}
+
+.content {
+  font-family: 'MyFont', sans-serif;
+  font-size: small;
+}
+
+button:hover {
+  cursor: pointer;
+}
+</style>

@@ -8,6 +8,9 @@ import { UtilsService } from "../../../utils/utils.service";
 import { UpdateEmployeeComponent } from "../update-employee/update-employee.component";
 import { ConfirmDialogComponent } from "../../common/confirm-dialog/confirm-dialog.component";
 import { FormsModule } from "@angular/forms";
+import { SpinnerComponent } from "../../common/spinner/spinner.component";
+import { ToastService } from "../../../services/toast.service";
+import { ToastComponent } from "../../common/toast/toast.component";
 
 @Component({
     selector:'app-employee',
@@ -18,7 +21,9 @@ import { FormsModule } from "@angular/forms";
         CreateEmployeeComponent,
         UpdateEmployeeComponent,
         NgbDropdownModule,
-        FormsModule
+        FormsModule,
+        SpinnerComponent,
+        ToastComponent
     ]
 
 })
@@ -40,12 +45,14 @@ export class AppEmployeeComponent implements OnInit{
     totalRecords = 1;
     totalPages = 1;
     searchQuery: string = '';
+    isLoading = false;
 
 
-    constructor(private apiService: ApiService, private utilsService: UtilsService, private modalService: NgbModal) {
+    constructor(private apiService: ApiService, private utilsService: UtilsService, private modalService: NgbModal, private toastService: ToastService) {
     }
 
     fetchData(): void {
+      this.isLoading = true;
         this.apiService.GetEmployees(this.pageSize, this.pageNumber).subscribe({
             next: (res: ApiResponse) => {
               this.response = res;  
@@ -53,9 +60,10 @@ export class AppEmployeeComponent implements OnInit{
               this.totalPages = res.totalPages;
               this.totalRecords = res.totalRecords;
               this.pageArray = this.utilsService.createRangeArray(1, this.totalPages);
+              this.isLoading = false;
             },
             error: (err) => {
-              console.error('Có lỗi khi gọi API:', err); // Xử lý lỗi
+              //console.error('Có lỗi khi gọi API:', err); // Xử lý lỗi
             }
           });
     }
@@ -132,6 +140,7 @@ export class AppEmployeeComponent implements OnInit{
           this.apiService.DeleteEmployee(id).subscribe({
             next: (response) => {
               console.log('Tạo thành công:', response);
+              this.toastService.showMessage('Xóa nhân viên thành công', 'success')
               this.Search();
             },
               error: (error) => {
@@ -148,6 +157,7 @@ export class AppEmployeeComponent implements OnInit{
   }
 
   Search() {
+    this.isLoading = true;
     this.apiService.SearchEmployees(this.searchQuery, this.pageSize, this.pageNumber).subscribe({
       next: (res) => {
         this.response = res;  
@@ -156,6 +166,7 @@ export class AppEmployeeComponent implements OnInit{
         this.totalRecords = res.totalRecords;
         this.pageArray = this.utilsService.createRangeArray(1, this.totalPages);
         console.log(res); // Log dữ liệu để kiểm tra
+        this.isLoading = false;
       },
       error: (err) => {
         console.error('Có lỗi khi gọi API:', err); // Xử lý lỗi
